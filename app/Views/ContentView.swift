@@ -32,6 +32,7 @@ struct ContentView: View {
     
     // Side Menu State
     @State private var showSideMenu: Bool = false
+    @State private var showCollegeApp: Bool = false
     
     let userName: String
     let emojis = ["✌️", "👋", "😴", "🤓", "👀", "📚", "🫡", "❤️", "🔥", "🙄"]
@@ -152,6 +153,9 @@ struct ContentView: View {
                 },
                 onSelectStudyPlan: {
                     // Future implementation
+                },
+                onSelectCollegeApp: {
+                    showCollegeApp = true
                 }
             )
             .zIndex(2)
@@ -197,6 +201,9 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showSubjectsList) {
             SubjectsListView(subjectsManager: subjectsManager)
+        }
+        .sheet(isPresented: $showCollegeApp) {
+            CollegeAppView(subjectsManager: subjectsManager)
         }
         .sheet(item: $selectedSubject) { subject in
             NavigationView {

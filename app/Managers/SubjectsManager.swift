@@ -211,4 +211,134 @@ class SubjectsManager: ObservableObject {
             return false
         }
     }
+    
+    // MARK: - College Application
+    
+    func saveCollegeApplication(
+        grade9: String,
+        grade10: String?,
+        grade11: String?,
+        grade12: String?,
+        extracurriculars: String?,
+        needsAid: Bool,
+        location: CollegeApplication.Location,
+        countries: [String]
+    ) async -> Bool {
+        guard let email = UserDefaults.standard.string(forKey: "userEmail") else {
+            print("❌ No user email found for college application")
+            return false
+        }
+        
+        do {
+            let now = ISO8601DateFormatter().string(from: Date())
+            
+            // Create Encodable payload struct
+            struct CollegeAppPayload: Encodable {
+                let user_email: String
+                let grade_9: String
+                let grade_10: String?
+                let grade_11: String?
+                let grade_12: String?
+                let extracurriculars: String?
+                let needs_aid: Bool
+                let location: String
+                let countries: [String]?
+                let created_at: String?
+                let updated_at: String
+            }
+            
+            let basePayload = CollegeAppPayload(
+                user_email: email,
+                grade_9: grade9,
+                grade_10: grade10?.isEmpty == false ? grade10 : nil,
+                grade_11: grade11?.isEmpty == false ? grade11 : nil,
+                grade_12: grade12?.isEmpty == false ? grade12 : nil,
+                extracurriculars: extracurriculars?.isEmpty == false ? extracurriculars : nil,
+                needs_aid: needsAid,
+                location: location.rawValue,
+                countries: location == .abroad && !countries.isEmpty ? countries : nil,
+                created_at: nil,
+                updated_at: now
+            )
+            
+            // Check if application exists
+            struct AppID: Decodable, Sendable { let id: UUID }
+            let existing: [AppID] = try await client
+                .from("college_applications")
+                .select("id")
+                .eq("user_email", value: email)
+                .execute()
+                .value
+            
+            if let appId = existing.first?.id {
+                // Update existing
+                let updatePayload = CollegeAppPayload(
+                    user_email: email,
+                    grade_9: grade9,
+                    grade_10: grade10?.isEmpty == false ? grade10 : nil,
+                    grade_11: grade11?.isEmpty == false ? grade11 : nil,
+                    grade_12: grade12?.isEmpty == false ? grade12 : nil,
+                    extracurriculars: extracurriculars?.isEmpty == false ? extracurriculars : nil,
+                    needs_aid: needsAid,
+                    location: location.rawValue,
+                    countries: location == .abroad && !countries.isEmpty ? countries : nil,
+                    created_at: nil,
+                    updated_at: now
+                )
+                
+                try await client
+                    .from("college_applications")
+                    .update(updatePayload)
+                    .eq("id", value: appId)
+                    .execute()
+            } else {
+                // Insert new
+                let insertPayload = CollegeAppPayload(
+                    user_email: email,
+                    grade_9: grade9,
+                    grade_10: grade10?.isEmpty == false ? grade10 : nil,
+                    grade_11: grade11?.isEmpty == false ? grade11 : nil,
+                    grade_12: grade12?.isEmpty == false ? grade12 : nil,
+                    extracurriculars: extracurriculars?.isEmpty == false ? extracurriculars : nil,
+                    needs_aid: needsAid,
+                    location: location.rawValue,
+                    countries: location == .abroad && !countries.isEmpty ? countries : nil,
+                    created_at: now,
+                    updated_at: now
+                )
+                
+                try await client
+                    .from("college_applications")
+                    .insert(insertPayload)
+                    .execute()
+            }
+            
+            print("✅ College application saved")
+            return true
+        } catch {
+            print("❌ Save college application error: \(error)")
+            return false
+        }
+    }
+    
+    func loadCollegeApplication() async -> CollegeApplication? {
+        guard let email = UserDefaults.standard.string(forKey: "userEmail") else {
+            return nil
+        }
+        
+        do {
+            let applications: [CollegeApplication] = try await client
+                .from("college_applications")
+                .select()
+                .eq("user_email", value: email)
+                .limit(1)
+                .execute()
+                .value
+            
+            return applications.first
+        } catch {
+            print("❌ Load college application error: \(error)")
+            return nil
+        }
+    }
 }

@@ -1,15 +1,3 @@
-# Zeps
-
-App for lazy indian high schoolers
-
-## Features
-
-- Google Sign-In authentication
-- QR code scanning to add subjects
-- Note-taking with Markdown support
-- Flashcards, PYQs (Previous Year Questions), and Exemplars
-- Supabase backend integration
-
 ## Setup
 
 ### Prerequisites

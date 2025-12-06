@@ -4,6 +4,7 @@ struct SideMenuView: View {
     @Binding var isShowing: Bool
     var onSelectSubject: () -> Void
     var onSelectStudyPlan: () -> Void
+    var onSelectCollegeApp: () -> Void
     
     var body: some View {
         ZStack {
@@ -51,6 +52,13 @@ struct SideMenuView: View {
                                 FullScreenMenuRow(icon: "calendar", text: "Study Plan", color: .orange) {
                                     withAnimation { isShowing = false }
                                     onSelectStudyPlan()
+                                }
+                                
+                                FullScreenMenuRow(icon: "graduationcap.fill", text: "College App", color: .purple) {
+                                    withAnimation { isShowing = false }
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                        onSelectCollegeApp()
+                                    }
                                 }
                                 
                                 FullScreenMenuRow(icon: "star.fill", text: "Achievements", color: .yellow) {

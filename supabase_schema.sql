@@ -112,3 +112,40 @@ $$;
 
 CREATE INDEX idx_subjects_qr_code ON subjects(qr_code);
 CREATE INDEX idx_subjects_auth_users ON subjects USING GIN(auth_users);
+
+-- ============================================
+-- COLLEGE APPLICATIONS TABLE
+-- ============================================
+
+CREATE TABLE college_applications (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_email TEXT NOT NULL,
+    grade_9 TEXT,
+    grade_10 TEXT,
+    grade_11 TEXT,
+    grade_12 TEXT,
+    extracurriculars TEXT,
+    needs_aid BOOLEAN DEFAULT FALSE,
+    location TEXT NOT NULL, -- 'india' or 'abroad'
+    countries TEXT[], -- Array of countries if location is 'abroad'
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(user_email)
+);
+
+-- RLS for college_applications
+ALTER TABLE college_applications ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view their own college application"
+    ON college_applications FOR SELECT
+    USING (true);
+
+CREATE POLICY "Users can insert their own college application"
+    ON college_applications FOR INSERT
+    WITH CHECK (true);
+
+CREATE POLICY "Users can update their own college application"
+    ON college_applications FOR UPDATE
+    USING (true);
+
+CREATE INDEX idx_college_applications_user_email ON college_applications(user_email);
