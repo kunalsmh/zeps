@@ -1,3 +1,18 @@
+<<<<<<< HEAD
+=======
+# Zeps
+
+Zeps is an app for indian high schoolers that contains everything you need to top your classes without any ads or subscription.
+
+## Features
+
+- Google Sign-In authentication
+- QR code scanning to add subjects
+- Note-taking with Markdown support
+- Flashcards, PYQs (Previous Year Questions), and Exemplars
+- Supabase backend integration
+
+>>>>>>> 8fb5bbcc0893dd50d11647468003b0b10533f15a
 ## Setup
 
 ### Prerequisites
