@@ -1,16 +1,8 @@
-# Zeps
+![Zeps Screenshot](https://github.com/kunalsmh/zeps/blob/main/ts.png)
 
-Zeps is an app for indian high schoolers that contains everything you need to top your classes without any ads or subscription.
+Zeps is an app for Indian high schoolers, giving you everything you need to ace your classes. It also helps you build a strong college-ready profile and shows which universities you’re most likely to get into based on your profile.
 
-## Setup
-
-### Prerequisites
-
-- Xcode 15.0 or later
-- iOS 15.0 or later
-- CocoaPods
-
-### Installation
+## Self building
 
 1. Clone the repository:
 ```bash
