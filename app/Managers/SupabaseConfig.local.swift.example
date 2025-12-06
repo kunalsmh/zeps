@@ -1,0 +1,17 @@
+import Foundation
+
+// Copy this file to SupabaseConfig.local.swift and fill in your actual values.
+// SupabaseConfig.local.swift is gitignored and will not be committed.
+
+// To use this file:
+// 1. Copy this file: cp SupabaseConfig.local.swift.example SupabaseConfig.local.swift
+// 2. Replace the placeholder values below with your actual Supabase credentials
+// 3. Update SupabaseConfig.swift to import and use these values
+
+// Note: This file is just an example. The actual implementation would need to be
+// integrated into SupabaseConfig.swift. For now, use environment variables or
+// the hardcoded fallback values in SupabaseConfig.swift
+
+// SUPABASE_URL=your_supabase_url_here
+// SUPABASE_ANON_KEY=your_supabase_anon_key_here
+
