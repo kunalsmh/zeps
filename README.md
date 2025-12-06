@@ -1,6 +1,6 @@
-# App
+# Zeps
 
-A SwiftUI iOS app for managing educational subjects with QR code scanning, notes, flashcards, and more.
+App for lazy indian high schoolers
 
 ## Features
 
