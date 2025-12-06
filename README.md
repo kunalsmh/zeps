@@ -1,6 +1,6 @@
 # Zeps
 
-App for lazy indian high schoolers
+Zeps is an app for indian high schoolers that contains everything you need to top your classes without any ads or subscription.
 
 ## Features
 
